@@ -39,6 +39,11 @@ COPY --from=build-python /usr/local/bin/ /usr/local/bin/
 COPY . /app
 WORKDIR /app
 
+ARG DEBUG
+ENV DEBUG ${DEBUG:-False}
+ARG ALLOWED_CLIENT_HOSTS
+ENV ALLOWED_CLIENT_HOSTS: ${ARG:-ALLOWED_CLIENT_HOSTS}
+
 ARG STATIC_URL
 ENV STATIC_URL ${STATIC_URL:-/static/}
 RUN SECRET_KEY=dummy STATIC_URL=${STATIC_URL} python3 manage.py collectstatic --no-input
